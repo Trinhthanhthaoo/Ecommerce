@@ -1,12 +1,14 @@
 package com.vku.Server;
 
 import com.google.gson.Gson;
+import com.vku.DAO.ChatDAO;
 import com.vku.DAO.Database;
 import com.vku.DAO.MoneyTransferDAO;
 import com.vku.DAO.OrderDAO;
 import com.vku.DAO.OrderDetailDAO;
 import com.vku.DAO.UserDAO;
 import com.vku.DAO.productDAO; // Giả định tên lớp ProductDAO cần được viết hoa chữ cái đầu
+import com.vku.Model.Chat;
 import com.vku.Model.Order;
 import com.vku.Model.OrderDetail;
 import com.vku.Model.Product;
@@ -21,6 +23,7 @@ import java.net.Socket;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class Main {
@@ -54,7 +57,7 @@ public class Main {
                 OrderDAO orderDAO = new OrderDAO(connection);
                 OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
                 productDAO productDAO = new productDAO();
-
+                ChatDAO chatDAO = new ChatDAO();
                 System.out.println("messageType: " + messageType);
 
                 // Xử lý các loại thông điệp khác nhau
@@ -165,6 +168,9 @@ public class Main {
                         System.out.println("Lỗi khi tìm kiếm sản phẩm: " + e.getMessage());
                     }
                 } else if (messageType.equals("DELETE_PRODUCT")) { // xóa sp
+                     outputStream.writeByte(1);
+                    outputStream.flush();
+
                     try {
                         int productId = inputStream.readInt();
                         boolean success = productDAO.deleteProduct(productId);
@@ -172,6 +178,9 @@ public class Main {
                     } catch (IOException e) {
                         System.out.println("Lỗi khi xóa sản phẩm: " + e.getMessage());
                     }
+                     outputStream.writeByte(-1);
+                    outputStream.flush();
+
                 } else if (messageType.equals("ADD_ORDER")) {
                     try {
                         int customerId = inputStream.readInt();
@@ -219,6 +228,9 @@ public class Main {
                         System.out.println("Lỗi khi lấy tất cả đơn hàng: " + e.getMessage());
                     }
                 }else if (messageType.equals("ADD_PRODUCT")) { // thêm sản phẩm
+                    outputStream.writeByte(1);
+                    outputStream.flush();
+
                     try {
                         String name = inputStream.readUTF();
                         String description = inputStream.readUTF();
@@ -231,7 +243,13 @@ public class Main {
                     } catch (IOException e) {
                         System.out.println("Lỗi khi thêm sản phẩm: " + e.getMessage());
                     }
+                finally {
+                        outputStream.writeByte(-1);
+                        outputStream.flush();
+                    }
                 }  else if (messageType.equals("UPDATE_PRODUCT")) { // cập nhật sản phẩm
+                    outputStream.writeByte(1);
+                    outputStream.flush();
                     try {
                         int productId = inputStream.readInt();
                         String name = inputStream.readUTF();
@@ -245,6 +263,8 @@ public class Main {
                     } catch (IOException e) {
                         System.out.println("Lỗi khi cập nhật sản phẩm: " + e.getMessage());
                     }
+                    outputStream.writeByte(1);
+                    outputStream.flush();
                 }else if (messageType.equals("GET_ALL_PRODUCTS")) { // lấy tất cả sản phẩm
                     try {
                         
@@ -365,7 +385,22 @@ public class Main {
                     } catch (IOException e) {
                         System.out.println("Lỗi khi tìm kiếm chi tiết đơn hàng: " + e.getMessage());
                     }
+                } else if (messageType.equals("SEND_CHAT")) {
+                    try {
+                        int senderId = inputStream.readInt();
+                        int receiverId = inputStream.readInt();
+                        String message = inputStream.readUTF();
+                        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+                        Chat chat = new Chat(0, senderId, message, timestamp); // Assuming receiverId is not needed here
+                        chatDAO.addChat(chat);
+                        outputStream.writeBoolean(true);
+                    } catch (IOException | SQLException e) {
+                        outputStream.writeBoolean(false);
+                        System.out.println("Lỗi khi gửi tin nhắn: " + e.getMessage());
+                    }
                 }
+
 
                 // Đóng kết nối với client
                 clientSocket.close();

@@ -10,6 +10,7 @@ import com.vku.Model.Product;
 import java.util.List;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -75,6 +76,11 @@ public class QLSP extends javax.swing.JPanel {
                 "Product ID", "Name", "Description", "Price", "Stock"
             }
         ));
+        showData.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                showDataMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(showData);
 
         jLabel6.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
@@ -111,12 +117,32 @@ public class QLSP extends javax.swing.JPanel {
         jLabel5.setText("Price");
 
         jButton1.setText("Delete");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Update");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Excel");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Insert");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -224,6 +250,252 @@ public class QLSP extends javax.swing.JPanel {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+       
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void showDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showDataMouseClicked
+
+        int row = showData.getSelectedRow();
+        String id = String.valueOf(showData.getValueAt(row, 0));
+        String name = String.valueOf(showData.getValueAt(row, 1));
+        String des = String.valueOf(showData.getValueAt(row, 2));
+        String price = String.valueOf(showData.getValueAt(row, 3));
+        String stock = String.valueOf(showData.getValueAt(row, 4));
+
+        txtID.setText(id);
+        txtName.setText(name);
+        txtDescription.setText(des);
+        txtPrice.setText(price);
+        txtStock.setText(stock);
+    }//GEN-LAST:event_showDataMouseClicked
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        Socket clientSocket = null;
+        DataOutputStream outClient = null;
+
+        try {
+            // Establish connection to server
+            clientSocket = new Socket("localhost", 8300);
+
+            String name = txtName.getText().trim();
+            String description = txtDescription.getText().trim();
+            String price = txtPrice.getText().trim();
+            String stock = txtStock.getText().trim();
+
+            // Xác thực đầu vào
+            if (stock.isEmpty() || name.isEmpty() || description.isEmpty() || price.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Các trường không được để trống", "Input Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+         
+            // Send data to server
+            outClient = new DataOutputStream(clientSocket.getOutputStream());
+            outClient.writeUTF("ADD_PRODUCT"); // Gửi thông điệp là chuỗi "TRANSFER"
+            outClient.flush();
+            outClient.writeUTF(name);
+            outClient.flush();
+            outClient.writeUTF(description);
+            outClient.flush(); // Account to transfer to
+            outClient.writeDouble(Double.parseDouble(price));
+            outClient.flush();
+            outClient.writeInt(Integer.parseInt(stock));
+            outClient.flush();
+            // Read server response
+            DataInputStream inClient = new DataInputStream(clientSocket.getInputStream());
+
+            boolean done = false;
+
+            while (!done) {
+                byte messageType = inClient.readByte();
+
+                System.out.println("TTTT messageType: " + messageType);
+
+                switch (messageType) {
+                    case 1:
+                        boolean result = inClient.readBoolean();
+                        System.out.println("TTTT result: " + result);
+
+                        if (result) {
+                            JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                             showData();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Thêm sản phẩm thất bại.", "Error", JOptionPane.ERROR_MESSAGE);
+                            done = true;
+                        }
+
+                        break;
+                    default:
+                        done = true;
+                }
+            }
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Thêm sản phẩm thất bại.", "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            // Ensure connections are properly closed
+            try {
+                if (outClient != null) {
+                    outClient.close();
+                }
+                if (clientSocket != null) {
+                    clientSocket.close();
+                }
+            } catch (IOException ex) {
+                System.err.println("Error closing connection: " + ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Socket clientSocket = null;
+        DataOutputStream outClient = null;
+
+        try {
+            // Establish connection to server
+            clientSocket = new Socket("localhost", 8300);
+
+            String productIdStr = txtID.getText().trim();
+            // Input validation
+        if (productIdStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "ID sản phẩm không được để trống", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+           int productId = Integer.parseInt(productIdStr);
+
+        // Send data to server
+        outClient = new DataOutputStream(clientSocket.getOutputStream());
+        outClient.writeUTF("DELETE_PRODUCT");
+        outClient.flush();
+        outClient.writeInt(productId);
+        outClient.flush();
+
+            // Read server response
+            DataInputStream inClient = new DataInputStream(clientSocket.getInputStream());
+
+            boolean done = false;
+
+            while (!done) {
+                byte messageType = inClient.readByte();
+
+                System.out.println("TTTT messageType: " + messageType);
+
+                switch (messageType) {
+                    case 1:
+                        boolean result = inClient.readBoolean();
+                        System.out.println("TTTT result: " + result);
+
+                        if (result) {
+                            JOptionPane.showMessageDialog(this, "Xóa sản phẩm thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                            showData();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Xóa sản phẩm thất bại.", "Error", JOptionPane.ERROR_MESSAGE);
+                            done = true;
+                        }
+
+                        break;
+                    default:
+                        done = true;
+                }
+            }
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Xóa sản phẩm thất bại.", "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            // Ensure connections are properly closed
+            try {
+                if (outClient != null) {
+                    outClient.close();
+                }
+                if (clientSocket != null) {
+                    clientSocket.close();
+                }
+            } catch (IOException ex) {
+                System.err.println("Error closing connection: " + ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Socket clientSocket = null;
+        DataOutputStream outClient = null;
+
+        try {
+           
+            clientSocket = new Socket("localhost", 8300);
+
+            String productIdStr = txtID.getText().trim();
+            String name = txtName.getText().trim();
+            String description = txtDescription.getText().trim();
+            String priceStr = txtPrice.getText().trim();
+            String stockStr = txtStock.getText().trim();
+        if (productIdStr.isEmpty() || name.isEmpty() || description.isEmpty() || priceStr.isEmpty() || stockStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Các trường không được để trống", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+            int productId = Integer.parseInt(productIdStr);
+        double price = Double.parseDouble(priceStr);
+        int stock = Integer.parseInt(stockStr);
+
+         // Send data to server
+        outClient = new DataOutputStream(clientSocket.getOutputStream());
+        outClient.writeUTF("UPDATE_PRODUCT");
+        outClient.flush();
+        outClient.writeInt(productId);
+        outClient.flush();
+        outClient.writeUTF(name);
+        outClient.flush();
+        outClient.writeUTF(description);
+        outClient.flush();
+        outClient.writeDouble(price);
+        outClient.flush();
+        outClient.writeInt(stock);
+        outClient.flush();
+            // Read server response
+            DataInputStream inClient = new DataInputStream(clientSocket.getInputStream());
+
+            boolean done = false;
+
+            while (!done) {
+                byte messageType = inClient.readByte();
+
+                System.out.println("TTTT messageType: " + messageType);
+  switch (messageType) {
+                    case 1:
+                        boolean result = inClient.readBoolean();
+                        System.out.println("TTTT result: " + result);
+
+                        if (result) {
+                            JOptionPane.showMessageDialog(this, "Cập nhật sản phẩm thành công!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                            showData();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Cập nhật sản phẩm thất bại.", "Error", JOptionPane.ERROR_MESSAGE);
+                            done = true;
+                        }
+
+                        break;
+                    default:
+                        done = true;
+                }
+            }
+
+        } catch (IOException e) {
+//            JOptionPane.showMessageDialog(this, "Cập nhật sản phẩm thất bại.", "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            // Ensure connections are properly closed
+            try {
+                if (outClient != null) {
+                    outClient.close();
+                }
+                if (clientSocket != null) {
+                    clientSocket.close();
+                }
+            } catch (IOException ex) {
+                System.err.println("Error closing connection: " + ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

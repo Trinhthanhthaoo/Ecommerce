@@ -34,7 +34,6 @@ public class TC_Admin extends javax.swing.JFrame {
         TL = new javax.swing.JLabel();
         QLSP = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         bg = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
@@ -97,15 +96,6 @@ public class TC_Admin extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vku/icon/email-icon.png"))); // NOI18N
-        jLabel1.setText("Hộp thư thoại");
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -116,8 +106,7 @@ public class TC_Admin extends javax.swing.JFrame {
                     .addComponent(QLSP, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TK, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Banking, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TL, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(TL, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -137,9 +126,7 @@ public class TC_Admin extends javax.swing.JFrame {
                 .addComponent(Banking, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
                 .addComponent(TL, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addComponent(jLabel1)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addContainerGap(172, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 830));
@@ -190,10 +177,6 @@ public class TC_Admin extends javax.swing.JFrame {
         taiTrang(5);
     }//GEN-LAST:event_TLMouseClicked
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        taiTrang(6);
-    }//GEN-LAST:event_jLabel1MouseClicked
-
     /**
      * @param args the command line arguments
      */
@@ -237,7 +220,6 @@ public class TC_Admin extends javax.swing.JFrame {
     private javax.swing.JLabel TK;
     private javax.swing.JLabel TL;
     private javax.swing.JPanel bg;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
@@ -245,7 +227,7 @@ public class TC_Admin extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     int width = 260;
     int height = 950;
-    
+    ThietLap_A tl;
     QLSP sp;
     QLDH dh;
     TK tk;
@@ -318,10 +300,10 @@ public class TC_Admin extends javax.swing.JFrame {
 
                 break;
              case 5:
-                if (e == null) {
-                    e = new Edit();
+                if (tl == null) {
+                    tl = new ThietLap_A();
                 }
-                bg.add(e);
+                bg.add(tl);
 
                 break;
             default:
