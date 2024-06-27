@@ -1,9 +1,12 @@
 package com.vku.DAO;
 
+import com.vku.Model.History;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MoneyTransferDAO {
 
@@ -79,5 +82,53 @@ public class MoneyTransferDAO {
                 }
             }
         }
+    }
+    public static void saveTransactionHistory(String ID, String User_ID, String details, String updateDate) throws SQLException {
+    String sql = "INSERT INTO History (ID, User_ID, Details, UpdateDate) VALUES (?, ?, ?, ?)";
+
+    try (PreparedStatement ps = Database.getConnection().prepareStatement(sql)) {
+        ps.setString(1, ID);
+        ps.setString(2, User_ID);
+        ps.setString(3, details);  
+        ps.setString(4, updateDate);  
+
+        ps.executeUpdate();
+    }
+}
+
+    public static List<History> getAllHistory() {
+        List<History> his = new ArrayList<>();
+        Connection connection = Database.getConnection();
+        if (connection == null) {
+            System.err.println("Không thể lấy kết nối đến cơ sở dữ liệu.");
+            return his;
+        }
+
+        String sql = "SELECT * FROM History";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String ID = resultSet.getString("ID");
+                String userID = resultSet.getString("User_ID");
+                String details = resultSet.getString("details");
+                String update = resultSet.getString("updateDate");
+
+                History history = new History();
+                history.setId(ID);
+                history.setUserId(userID);  // Corrected field name
+                history.setDetails(details);
+                history.setUpdateDate(update);
+                his.add(history);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return his;
     }
 }

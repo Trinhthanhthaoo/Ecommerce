@@ -28,12 +28,12 @@ public class OrderDetailDAO {
         }
     }
 
-    // Xóa một chi tiết đơn hàng khỏi cơ sở dữ liệu
-    public boolean deleteOrderDetail(int orderDetailId) {
-        String sql = "DELETE FROM OrderDetails WHERE order_detail_id = ?";
+   public boolean deleteOrderDetail(int orderId, int productId) {
+        String sql = "DELETE FROM OrderDetails WHERE order_id = ? AND product_id = ?";
         try (Connection connection = Database.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, orderDetailId);
+            statement.setInt(1, orderId);
+            statement.setInt(2, productId);
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
@@ -41,7 +41,6 @@ public class OrderDetailDAO {
             return false;
         }
     }
-
     // Lấy danh sách các chi tiết đơn hàng dựa trên orderId
     public List<OrderDetail> getOrderDetailsByOrderId(int orderId) {
         List<OrderDetail> orderDetails = new ArrayList<>();

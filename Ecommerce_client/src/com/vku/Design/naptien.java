@@ -41,6 +41,10 @@ public class naptien extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        txtID = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtUser = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -73,39 +77,55 @@ public class naptien extends javax.swing.JPanel {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel2.setText("ID");
+
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel5.setText("Username");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                        .addComponent(txtNhapsotien, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(65, 65, 65))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42))
+                .addGap(64, 64, 64))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtID)
+                    .addComponent(txtNhapsotien, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                    .addComponent(txtUser))
+                .addGap(78, 78, 78))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(136, Short.MAX_VALUE)
+                .addGap(29, 29, 29)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(39, 39, 39)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addGap(43, 43, 43)
+                .addGap(33, 33, 33)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNhapsotien, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -127,19 +147,20 @@ public class naptien extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    Socket clientSK = null;
+   Socket clientSK = null;
     DataOutputStream outClient = null;
     try {
-        // Thiết lập kết nối tới máy chủ
+        // Establish connection to the server
         clientSK = new Socket(InetAddress.getByName("localhost"), 8300);
 
-        // Đọc giá trị từ các ô nhập liệu
+        // Read values from input fields
+        String id = txtID.getText().trim();  // Read ID field
+        String user = txtUser.getText().trim();  // Read ID field
         String password = txtPassword.getText().trim();
         String moneyStr = txtNhapsotien.getText().trim();
-        String key = "DEPOSIT";
 
-        // Kiểm tra giá trị đầu vào
-        if (password.isEmpty() || moneyStr.isEmpty()) {
+        // Validate input
+        if (id.isEmpty() || password.isEmpty() || moneyStr.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Fields cannot be empty", "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -155,44 +176,51 @@ public class naptien extends javax.swing.JPanel {
             return;
         }
 
-        // Gửi dữ liệu qua socket
+        // Send data over the socket
         outClient = new DataOutputStream(clientSK.getOutputStream());
-        
-        outClient.writeUTF(key); // Gửi key "DEPOSIT"
-        outClient.flush();
-        
-        outClient.writeUTF(password); // Gửi mật khẩu
-        outClient.flush();
-        
-        outClient.writeDouble(amount); // Gửi số tiền cần nạp
+        outClient.writeUTF("DEPOSIT"); // Send operation key "DEPOSIT"
         outClient.flush();
 
-        // Nhận phản hồi từ máy chủ
+        outClient.writeUTF(id); // Send ID
+        outClient.flush();
+
+        outClient.writeUTF(user); // Send username
+        outClient.flush();
+
+        outClient.writeUTF(password); // Send password
+        outClient.flush();
+
+        outClient.writeDouble(amount); // Send amount to deposit
+        outClient.flush();
+
+        // Receive response from the server
         DataInputStream inClient = new DataInputStream(clientSK.getInputStream());
         
         boolean done = false;
         
-        while(!done) {
+        while (!done) {
             byte messageType = inClient.readByte();
-            switch(messageType) {
+            
+            switch (messageType) {
                 case 1:
                     boolean result = inClient.readBoolean();
                     if (result) {
                         JOptionPane.showMessageDialog(null, "Recharge successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(null, "Authentication failed", "Error", JOptionPane.ERROR_MESSAGE);
-                        done = true;
                     }
+                    done = true;
                     break;
                 default:
                     done = true;
+                    break;
             }
         }
 
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Error during recharge: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     } finally {
-        // Đảm bảo đóng các kết nối
+        // Ensure closing connections
         try {
             if (outClient != null) outClient.close();
             if (clientSK != null) clientSK.close();
@@ -206,11 +234,15 @@ public class naptien extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtNhapsotien;
     private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 }

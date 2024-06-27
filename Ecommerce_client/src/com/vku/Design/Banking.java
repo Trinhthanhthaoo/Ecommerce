@@ -62,6 +62,11 @@ public class Banking extends javax.swing.JPanel {
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
         jLabel3.setText("Lịch sử giao dịch");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
         jLabel4.setText("Chuyển tiền");
@@ -139,6 +144,10 @@ public class Banking extends javax.swing.JPanel {
         taiTrang(3);
     }//GEN-LAST:event_jLabel2MouseClicked
 
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+          taiTrang(4);
+    }//GEN-LAST:event_jLabel3MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
@@ -154,6 +163,7 @@ public class Banking extends javax.swing.JPanel {
 chuyentien c;
 naptien n;
 ruttien r;
+HistoryUI his;
   private void taiTrang(int i) {
         bg.removeAll();
         switch (i) {
@@ -176,6 +186,13 @@ ruttien r;
                     r = new ruttien();
                 }
                 bg.add(r);
+
+                break;
+                  case 4:
+                if (his == null) {
+                    his = new HistoryUI();
+                }
+                bg.add(his);
 
                 break;
                 default:

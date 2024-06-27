@@ -104,38 +104,39 @@ public class productDAO {
         }
     }
 
-    // Lấy danh sách tất cả sản phẩm từ cơ sở dữ liệu
-    public static List<Product> getAllProducts() {
-        List<Product> products = new ArrayList<>();
-        Connection connection = Database.getConnection();
-        if (connection == null) {
-            System.err.println("Không thể lấy kết nối đến cơ sở dữ liệu.");
-            return products;
-        }
-
-        String sql = "SELECT * FROM Products";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                int productId = resultSet.getInt("product_id");
-                String name = resultSet.getString("name");
-                String description = resultSet.getString("description");
-                double price = resultSet.getDouble("price");
-                int stock = resultSet.getInt("stock");
-                Product product = new Product(productId, name, description, price, stock);
-                products.add(product);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+  public static List<Product> getAllProducts() {
+    List<Product> products = new ArrayList<>();
+    Connection connection = Database.getConnection();
+    if (connection == null) {
+        System.err.println("Không thể lấy kết nối đến cơ sở dữ liệu.");
         return products;
     }
+
+    String sql = "SELECT * FROM Products";
+    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            int productId = resultSet.getInt("product_id");
+            String name = resultSet.getString("name");
+            String description = resultSet.getString("description");
+            double price = resultSet.getDouble("price");
+            int stock = resultSet.getInt("stock");
+            Product product = new Product(productId, name, description, price, stock);
+            products.add(product);
+        }
+        System.out.println("Retrieved products from database: " + products.size());
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    return products;
+}
+
 
     // Tìm kiếm sản phẩm dựa trên từ khóa
     public static List<Product> getSearch(String keyword) {
@@ -176,4 +177,39 @@ public class productDAO {
 
     return products;
 }
+    
+   public static List<Product> getProductByMa(int productId) {
+    List<Product> products = new ArrayList<>();
+    Connection connection = Database.getConnection();
+    if (connection == null) {
+        System.err.println("Không thể kết nối đến cơ sở dữ liệu.");
+        return products;
+    }
+
+    String sql = "SELECT * FROM Products WHERE product_id = ?";
+    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        statement.setInt(1, productId);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            int id = resultSet.getInt("product_id");
+            String name = resultSet.getString("name");
+            String description = resultSet.getString("description");
+            double price = resultSet.getDouble("price");
+            int stock = resultSet.getInt("stock");
+
+            Product product = new Product(id, name, description, price, stock);
+            products.add(product);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    return products;
+}
+
 }

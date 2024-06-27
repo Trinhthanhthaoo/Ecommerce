@@ -3,6 +3,7 @@ package com.vku.Model;
 import java.sql.Date;
 
 public class Order {
+ public static String name = "";
     private int orderId;
     private int userID;
     private Date orderDate;
@@ -17,6 +18,7 @@ public class Order {
         this.userID = userID;
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;
+        Order.name = name;
     }
     public Order(int userID, Date orderDate, double totalAmount) {
     this.userID = userID;

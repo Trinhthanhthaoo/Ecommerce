@@ -77,7 +77,7 @@ public class chuyentien extends javax.swing.JPanel {
         jLabel4.setText("Mật khẩu");
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
-        jLabel5.setText("ID của bạn");
+        jLabel5.setText("Tên đăng nhập");
 
         jButton1.setText("Chuyển tiền");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -177,8 +177,6 @@ public class chuyentien extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Số tiền không hợp lệ", "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-
            // Send data to server
         outClient = new DataOutputStream(clientSocket.getOutputStream());
         outClient.writeUTF("TRANSFER"); // Gửi thông điệp là chuỗi "TRANSFER"
@@ -200,12 +198,12 @@ public class chuyentien extends javax.swing.JPanel {
         while (!done) {
             byte messageType = inClient.readByte();
             
-            System.out.println("PXH messageType: " + messageType);
+            System.out.println("TTTT messageType: " + messageType);
 
             switch (messageType) {
                 case 1:
                     boolean result = inClient.readBoolean();
-                    System.out.println("PXH result: " + result);
+                    System.out.println("TTTT result: " + result);
 
                     if (result) {
                         JOptionPane.showMessageDialog(this, "Transfer successful!", "Success", JOptionPane.INFORMATION_MESSAGE);

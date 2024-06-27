@@ -7,7 +7,7 @@ public class OrderDetail {
     private int quantity;
     private double price; // Thêm trường giá tiền
 
-    // Constructors
+    // Các constructor
     public OrderDetail() {
     }
 
@@ -26,7 +26,7 @@ public class OrderDetail {
         this.price = price;
     }
 
-    // Getters and Setters
+    // Các phương thức getter và setter
     public int getOrderDetailId() {
         return orderDetailId;
     }
@@ -67,4 +67,9 @@ public class OrderDetail {
         this.price = price;
     }
     
+    @Override
+    public String toString() {
+        return "OrderDetail{" + "orderDetailId=" + orderDetailId + ", orderId=" + orderId + ", productId=" + productId + ", quantity=" + quantity + ", price=" + price + '}';
+    }
+
 }

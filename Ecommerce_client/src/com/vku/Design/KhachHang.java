@@ -31,7 +31,6 @@ public class KhachHang extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         bg = new javax.swing.JPanel();
 
@@ -62,11 +61,6 @@ public class KhachHang extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vku/icon/Chat-icon.png"))); // NOI18N
-        jLabel4.setText("Chat");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -74,12 +68,8 @@ public class KhachHang extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 12, Short.MAX_VALUE)))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -89,12 +79,10 @@ public class KhachHang extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addGap(49, 49, 49)
                 .addComponent(jLabel2)
-                .addGap(43, 43, 43)
-                .addComponent(jLabel4)
-                .addContainerGap(373, Short.MAX_VALUE))
+                .addContainerGap(464, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 830));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 830));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vku/icon/shop.png"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -165,12 +153,12 @@ public class KhachHang extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
-    MuaSach ms;
+    MuaDo ms;
     ThietLap_C cl;
+    Banking bk;
     int width = 260;
     int height = 950;
       private void taiTrang(int i) {
@@ -178,7 +166,7 @@ public class KhachHang extends javax.swing.JFrame {
         switch (i) {
             case 1:
                 if (ms == null) {
-                    ms = new MuaSach();
+                    ms = new MuaDo();
                 }
                 bg.add(ms);
 
@@ -190,6 +178,14 @@ public class KhachHang extends javax.swing.JFrame {
                 bg.add(cl);
 
                 break;
+                 case 3:
+                if (bk == null) {
+                    bk = new  Banking();
+                }
+                bg.add(bk);
+
+                break;
+                
             
             default:
 

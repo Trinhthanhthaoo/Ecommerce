@@ -5,6 +5,14 @@
  */
 package com.vku.Design;
 
+import com.vku.Model.User;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
+
 /**
  *
  * @author admin!
@@ -16,8 +24,33 @@ public class TC_Admin extends javax.swing.JFrame {
      */
     public TC_Admin() {
         initComponents();
-    }
+        dt();
+        time();
+        lblName.setText("Xin chào, " + User.name);
 
+    }
+  public void dt() {
+        Date d = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String dd = sdf.format(d);
+        l_date.setText(dd);
+    }
+    Timer t;
+    SimpleDateFormat st;
+
+    public void time() {
+
+        t = new Timer(0, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Date dt = new Date();
+                st = new SimpleDateFormat("hh:mm:ss a");
+                String tt = st.format(dt);
+                l_time.setText(tt);
+            }
+        });
+        t.start();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,13 +62,16 @@ public class TC_Admin extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         QLDH = new javax.swing.JLabel();
-        TK = new javax.swing.JLabel();
         Banking = new javax.swing.JLabel();
         TL = new javax.swing.JLabel();
         QLSP = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        TL1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         bg = new javax.swing.JPanel();
+        l_date = new javax.swing.JLabel();
+        l_time = new javax.swing.JLabel();
+        lblName = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -53,15 +89,6 @@ public class TC_Admin extends javax.swing.JFrame {
             }
         });
 
-        TK.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
-        TK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vku/icon/Open-folder-accept-icon.png"))); // NOI18N
-        TK.setText("Thống kê");
-        TK.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TKMouseClicked(evt);
-            }
-        });
-
         Banking.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
         Banking.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vku/icon/Check-icon.png"))); // NOI18N
         Banking.setText("Kiểm tra tài khoản");
@@ -72,7 +99,7 @@ public class TC_Admin extends javax.swing.JFrame {
         });
 
         TL.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
-        TL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vku/icon/edit-icon.png"))); // NOI18N
+        TL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vku/icon/System-settings-icon.png"))); // NOI18N
         TL.setText("Thiết lập");
         TL.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -96,21 +123,33 @@ public class TC_Admin extends javax.swing.JFrame {
             }
         });
 
+        TL1.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
+        TL1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vku/icon/logout-icon.png"))); // NOI18N
+        TL1.setText("Đăng xuất");
+        TL1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TL1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel5))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(TL1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(QLDH, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(QLSP, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TK, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Banking, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TL, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel5))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,13 +159,13 @@ public class TC_Admin extends javax.swing.JFrame {
                 .addComponent(QLSP, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(QLDH, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
-                .addComponent(TK, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55)
+                .addGap(18, 18, 18)
                 .addComponent(Banking, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
+                .addGap(18, 18, 18)
                 .addComponent(TL, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(172, Short.MAX_VALUE))
+                .addGap(46, 46, 46)
+                .addComponent(TL1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(225, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 830));
@@ -141,6 +180,18 @@ public class TC_Admin extends javax.swing.JFrame {
 
         bg.setLayout(new java.awt.BorderLayout());
         getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, -1, -1));
+
+        l_date.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        l_date.setText("jLabel1");
+        getContentPane().add(l_date, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 10, 300, 30));
+
+        l_time.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        l_time.setText("jLabel2");
+        getContentPane().add(l_time, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 10, 260, -1));
+
+        lblName.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        lblName.setText("Xin Chào");
+        getContentPane().add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, 140, 30));
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/vku/icon/Thiết kế chưa có tên (3).png"))); // NOI18N
         getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1253, 828));
@@ -165,10 +216,6 @@ public class TC_Admin extends javax.swing.JFrame {
         taiTrang(2);
     }//GEN-LAST:event_QLDHMouseClicked
 
-    private void TKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TKMouseClicked
-        taiTrang(3);
-    }//GEN-LAST:event_TKMouseClicked
-
     private void BankingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BankingMouseClicked
         taiTrang(4);
     }//GEN-LAST:event_BankingMouseClicked
@@ -176,6 +223,16 @@ public class TC_Admin extends javax.swing.JFrame {
     private void TLMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TLMouseClicked
         taiTrang(5);
     }//GEN-LAST:event_TLMouseClicked
+
+    private void TL1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TL1MouseClicked
+       int choice = JOptionPane.showConfirmDialog(this, "Bạn có muốn thoát không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+
+    if (choice == JOptionPane.YES_OPTION) {
+        Login dn = new Login();  // Tạo đối tượng DangNhap mới
+        dn.setVisible(true);           // Hiển thị trang DangNhap
+        this.dispose();                // Đóng trang TrangChu hiện tại
+    }
+    }//GEN-LAST:event_TL1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -217,13 +274,16 @@ public class TC_Admin extends javax.swing.JFrame {
     private javax.swing.JLabel Banking;
     private javax.swing.JLabel QLDH;
     private javax.swing.JLabel QLSP;
-    private javax.swing.JLabel TK;
     private javax.swing.JLabel TL;
+    private javax.swing.JLabel TL1;
     private javax.swing.JPanel bg;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel l_date;
+    private javax.swing.JLabel l_time;
+    private javax.swing.JLabel lblName;
     // End of variables declaration//GEN-END:variables
     int width = 260;
     int height = 950;

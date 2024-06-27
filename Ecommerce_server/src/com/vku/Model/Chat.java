@@ -5,14 +5,16 @@ import java.sql.Timestamp;
 public class Chat {
     private int chatId;
     private int userId;
+    private int receiverId;
     private String message;
     private Timestamp timestamp;
 
     public Chat() {}
 
-    public Chat(int chatId, int userId, String message, Timestamp timestamp) {
+    public Chat(int chatId, int userId, int receiverId, String message, Timestamp timestamp) {
         this.chatId = chatId;
         this.userId = userId;
+        this.receiverId = receiverId;
         this.message = message;
         this.timestamp = timestamp;
     }
@@ -31,6 +33,14 @@ public class Chat {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getReceiverId() {
+        return receiverId;
+    }
+
+    public void setReceiverId(int receiverId) {
+        this.receiverId = receiverId;
     }
 
     public String getMessage() {
@@ -54,6 +64,7 @@ public class Chat {
         return "Chat{" +
                 "chatId=" + chatId +
                 ", userId=" + userId +
+                ", receiverId=" + receiverId +
                 ", message='" + message + '\'' +
                 ", timestamp=" + timestamp +
                 '}';

@@ -2,6 +2,9 @@
 package com.vku.Model;
 
 public class User {
+
+    public static String name = "";
+    public static String ID = "";
     private int userId;
     private String username;
     private String password;
@@ -15,6 +18,8 @@ public class User {
         this.username = username;
         this.password = password;
         this.role = role;
+        name = this.username;
+        ID = Integer.toString(this.userId);
     }
 
     public int getUserId() {
